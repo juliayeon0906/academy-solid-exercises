@@ -13,25 +13,68 @@
 
 // ---- PROBLEM CODE (do not delete — understand it first) -----
 
-class DiscountCalculator {
-  calculate(customerType: string, price: number): number {
-    if (customerType === "student") {
-      return price * 0.8; // 20% off
-    }
+// class DiscountCalculator {
+//   calculate(customerType: string, price: number): number {
+//     if (customerType === "student") {
+//       return price * 0.8; // 20% off
+//     }
 
-    if (customerType === "employee") {
-      return price * 0.7; // 30% off
-    }
+//     if (customerType === "employee") {
+//       return price * 0.7; // 30% off
+//     }
 
-    if (customerType === "vip") {
-      return price * 0.5; // 50% off
-    }
+//     if (customerType === "vip") {
+//       return price * 0.5; // 50% off
+//     }
 
-    return price; // no discount
+//     return price; // no discount
+//   }
+// }
+
+interface DiscountStrategy {
+  calculate(price: number): number;
+}
+
+class StudentDiscount implements DiscountStrategy {
+  calculate(price: number): number {
+    return price * 0.8;
   }
 }
 
-const calc = new DiscountCalculator();
+class EmployeeDiscount implements DiscountStrategy {
+  calculate(price: number): number {
+    return price * 0.7;
+  }
+}
+
+class VipDiscount implements DiscountStrategy {
+  calculate(price: number): number {
+    return price * 0.5;
+  }
+}
+
+type DiscountStrategies = Record<string, DiscountStrategy>;
+
+class DiscountCalculator {
+  constructor(private strategies: DiscountStrategies) {}
+
+  calculate(customerType: string, price: number): number {
+    const strategy = this.strategies[customerType];
+    if (strategy) {
+      return strategy.calculate(price);
+    }
+    return price;
+  }
+}
+
+// ---- TEST CODE (do not delete — it should still work) -----
+
+const calc = new DiscountCalculator({
+  student: new StudentDiscount(),
+  employee: new EmployeeDiscount(),
+  vip: new VipDiscount(),
+});
+
 console.log("Student price:  ", calc.calculate("student", 100)); // 80
 console.log("VIP price:      ", calc.calculate("vip", 100)); // 50
 console.log("Standard price: ", calc.calculate("standard", 100)); // 100
