@@ -12,15 +12,25 @@
 // Run:  npm run exercise-4
 // =============================================================
 
-interface Vehicle {
+interface EngineController {
   startEngine(): void;
   stopEngine(): void;
+}
+
+interface FuelController {
   refuel(): void;
+}
+
+interface BatteryController {
   chargeBattery(): void;
+}
+
+interface PedalController {
   pedal(): void;
 }
 
-class PetrolCar implements Vehicle {
+
+class PetrolCar implements EngineController, FuelController {
   startEngine() {
     console.log("Engine started");
   }
@@ -28,49 +38,25 @@ class PetrolCar implements Vehicle {
     console.log("Engine stopped");
   }
   refuel() {
-    console.log("Refuelling with petrol");
-  }
-  chargeBattery() {
-    throw new Error("Petrol cars don't charge batteries");
-  }
-  pedal() {
-    throw new Error("Cars don't have pedals");
+    console.log("Refueling with petrol");
   }
 }
 
-class ElectricCar implements Vehicle {
+class ElectricCar implements EngineController, BatteryController {
   startEngine() {
-    console.log("Motor started");
+    console.log("Electric motor started");
   }
   stopEngine() {
-    console.log("Motor stopped");
-  }
-  refuel() {
-    throw new Error("Electric cars don't use fuel");
+    console.log("Electric motor stopped");
   }
   chargeBattery() {
     console.log("Charging battery");
   }
-  pedal() {
-    throw new Error("Cars don't have pedals");
-  }
 }
 
-class Bicycle implements Vehicle {
-  startEngine() {
-    throw new Error("Bicycles have no engine");
-  }
-  stopEngine() {
-    throw new Error("Bicycles have no engine");
-  }
-  refuel() {
-    throw new Error("Bicycles don't refuel");
-  }
-  chargeBattery() {
-    throw new Error("Bicycles don't charge batteries");
-  }
+class Bicycle implements PedalController {
   pedal() {
-    console.log("Pedalling away!");
+    console.log("Pedaling the bicycle");
   }
 }
 
