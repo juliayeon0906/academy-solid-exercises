@@ -18,24 +18,31 @@ class BlogPost {
     this.content = content;
     this.author = author;
   }
+}
 
-  // Persistence
-  saveToDatabase() {
-    console.log(`Saving "${this.title}" to the database...`);
+class BlogPostRepository {
+  save(post: BlogPost) {
+    console.log(`Saving "${post.title}" to the database...`);
   }
+}
 
-  // Formatting
-  renderAsHtml(): string {
-    return `<h1>${this.title}</h1><p>By ${this.author}</p><p>${this.content}</p>`;
+class BlogPostHtmlRenderer {
+  render(post: BlogPost): string {
+    return `<h1>${post.title}</h1><p>By ${post.author}</p><p>${post.content}</p>`;
   }
+}
 
-  // Notification
-  notifySubscribers() {
-    console.log(`Sending email notification for new post: "${this.title}"`);
+class BlogPostNotifier {
+  notifySubscribers(post: BlogPost) {
+    console.log(`Sending email notification for new post: "${post.title}"`);
   }
 }
 
 const post = new BlogPost("SOLID Rocks", "Here is why...", "Alice");
-post.saveToDatabase();
-console.log(post.renderAsHtml());
-post.notifySubscribers();
+const blogPostRepository = new BlogPostRepository();
+const blogPostHtmlRenderer = new BlogPostHtmlRenderer();
+const blogPostNotifier = new BlogPostNotifier();
+
+blogPostRepository.save(post);
+console.log(blogPostHtmlRenderer.render(post));
+blogPostNotifier.notifySubscribers(post);
