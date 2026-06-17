@@ -13,14 +13,20 @@
 // Run:  npm run exercise-5
 // =============================================================
 
-class PdfExporter {
+interface Exporter {
+  export(content: string): void;
+}
+
+class PdfExporter implements Exporter {
   export(content: string): void {
     console.log(`Exporting to PDF:\n${content}`);
   }
 }
 
 class ReportGenerator {
-  private exporter = new PdfExporter(); // ❌ hard dependency
+  constructor(
+    private exporter: Exporter
+  ){}
 
   generate(data: string[]): void {
     const content = data.join("\n");
@@ -29,5 +35,5 @@ class ReportGenerator {
   }
 }
 
-const generator = new ReportGenerator();
+const generator = new ReportGenerator(new PdfExporter());
 generator.generate(["Sales: £10,000", "Costs: £4,000", "Profit: £6,000"]);
