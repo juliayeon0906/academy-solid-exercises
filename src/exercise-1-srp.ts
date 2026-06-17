@@ -20,7 +20,7 @@ class BlogPost {
   }
 }
 
-class BlogPostRepository {
+class BlogPostDatabase {
   save(post: BlogPost) {
     console.log(`Saving "${post.title}" to the database...`);
   }
@@ -39,7 +39,8 @@ class BlogPostNotifier {
 }
 
 const post = new BlogPost("SOLID Rocks", "Here is why...", "Alice");
-const blogPostRepository = new BlogPostRepository();
+
+const blogPostRepository = new BlogPostDatabase();
 const blogPostHtmlRenderer = new BlogPostHtmlRenderer();
 const blogPostNotifier = new BlogPostNotifier();
 
